@@ -19,6 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DiscordRichPresence" Version="1.3.0.28" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\App Icon.png" />
   </ItemGroup>
 

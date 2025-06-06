@@ -102,7 +102,7 @@
             <Button x:Name="ApplyButton" Grid.Column="0"
                     Content="적용" Margin="6" Click="ApplyButton_Click"/>
             <Button x:Name="RemoveButton" Grid.Column="1"
-                    Content="제거" Margin="6"/>
+                    Content="제거" Margin="6" Click="RemoveButton_Click"/>
         </Grid>
     </Grid>
 </Window>
