@@ -7,6 +7,19 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <ApplicationIcon>App-Icon.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\App Icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="App-Icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\App Icon.png" />
+  </ItemGroup>
 
 </Project>

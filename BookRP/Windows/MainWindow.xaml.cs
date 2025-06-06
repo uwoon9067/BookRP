@@ -19,6 +19,14 @@ namespace BookRP
         public MainWindow()
         {
             InitializeComponent();
+            ClassificationBox.ItemsSource = Classification.List;
+        }
+
+        private void ApplyButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!BookNameBox.ValidateNotEmpty("책 제목")) return;
+            if (!WriterBox.ValidateNotEmpty("글쓴이")) return;
+            if (!ClassificationBox.ValidateComboBox("책 분류")) return;
         }
     }
 }
