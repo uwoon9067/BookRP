@@ -1,4 +1,5 @@
 ﻿using DiscordRPC;
+using System.Resources;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,34 +29,57 @@ namespace BookRP
 
         private void ApplyButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!BookNameBox.ValidateNotEmpty("책 제목")) return;
-            if (!WriterBox.ValidateNotEmpty("글쓴이")) return;
-            if (!ClassificationBox.ValidateComboBox("책 분류")) return;
+            if (!ValidateInputs()) return;
 
-            string BookName = BookNameBox.Text;
-            string Writer = WriterBox.Text;
-            string Translator = TranslatorBox.Text;
-            string ClassificationText = ClassificationBox.Text;
-            string imageKey = Classification.Dictionary.TryGetValue(ClassificationText, out var code) ? code : "000" ;
+            string bookName = BookNameBox.Text;
+            string writer = WriterBox.Text;
+            string translator = TranslatorBox.Text;
+            string classificationText = ClassificationBox.Text;
 
-            RichPresence richPresence = new()
+            _discordRP.UpdatePresence(CreateRichPresence(
+                bookName,
+                writer,
+                translator,
+                classificationText
+                ));
+        }
+
+        private bool ValidateInputs()
+        {
+            return BookNameBox.ValidateNotEmpty("책 제목")
+                && WriterBox.ValidateNotEmpty("글쓴이")
+                && ClassificationBox.ValidateComboBox("책 분류");
+        }
+
+        private RichPresence CreateRichPresence(
+            string bookName,
+            string writer,
+            string translator,
+            string classificationText)
+        {
+            string imageKey = "000";
+            if (Classification.Dictionary.TryGetValue(classificationText, out string? code))
+            {
+                imageKey = code;
+            }
+
+            string state = $"{writer} 지음";
+            if (!string.IsNullOrWhiteSpace(translator))
+            {
+                state += $" {translator} 옮김";
+            }
+
+            return new RichPresence
             {
                 Type = ActivityType.Watching,
-                Details = $"{BookName}",
-                State = $"{Writer} 지음",
+                Details = bookName,
+                State = state,
                 Assets = new()
                 {
                     LargeImageKey = imageKey,
-                    LargeImageText = ClassificationText
+                    LargeImageText = classificationText
                 }
             };
-
-            if (!string.IsNullOrWhiteSpace(TranslatorBox.Text))
-            {
-                richPresence.State = $"{Writer} 지음 {Translator} 옮김";
-            }
-            
-            _discordRP.UpdatePresence(richPresence);
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
